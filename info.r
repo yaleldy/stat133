@@ -1,0 +1,5 @@
+name = "Dongyu Lang"
+SID = "24174288"
+email = "yaleldy@berkeley.edu"
+github_name = "yaleldy"
+status = "enrolled"
