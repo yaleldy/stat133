@@ -98,7 +98,7 @@ family.30y681=subset(family,age>30 & height<68)
 # Note: the dataframe has weight in lbs and height in in as required.
 # Create a new variable 
 # << bmi >> : a vector with the BMI of each family member 
-BMI=family[,'weight']/(family[,'height']*family[,'height'])
+BMI=family[,'weight']/(family[,'height']*family[,'height'])*703
 
 # Create a new data frame
 # << family2 >> : family with an added column of BMI, with column name bmi
