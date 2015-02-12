@@ -216,6 +216,7 @@ symbols( log(SO2012Ctry$GDP_per_person),log(SO2012Ctry$pop),circles=sqrt(SO2012C
 with(SO2012Ctry[SO2012Ctry$Total > 0, ],
      symbols(log(SO2012Ctry$GDP_per_person),log(SO2012Ctry$pop),
              circles= sqrt(SO2012Ctry$Total)/30, inches = FALSE))
+
 with(SO2012Ctry[SO2012Ctry$Total == 0, ],
      points(log(SO2012Ctry$GDP_per_person),log(SO2012Ctry$pop), pch = "."))
 
@@ -248,7 +249,7 @@ text(log(SO2012Ctry$GDP_per_person)[top5], log(SO2012Ctry$pop)[top5],
 install.packages("maps")
 library("maps")
 
-world <- map(datebase='world',region='.',boundary=TRUE)
+world <- map(datebase='world',region='.',boundary=TRUE, fill=TRUE, col="light grey")
 
 #Q11. Use the symbols() function to add circles to the map where
 # the circles are proportional in area to the number of medals
@@ -261,8 +262,8 @@ world <- map(datebase='world',region='.',boundary=TRUE)
 # pull out the contries that won at least one medal (you will need at least
 # the contries longitude, latitude and Total.)
 
-wonMedal <- subset(SO2012Ctry, SO2012Ctry$Total > 0, select=c("Total", "Country", "longitude", "latitude"))
-world <- map(datebase='world',boundary=TRUE)
+wonMedal <- subset(SO2012Ctry, SO2012Ctry$Total > 0, select=c("Total", "longitude", "latitude"))
+world <- map(datebase='world',region='.',boundary=TRUE, fill=TRUE, col="light grey")
 symbols(wonMedal$longitude,wonMedal$latitude,circles=sqrt(wonMedal$Total)/1.3,add=TRUE, inches=FALSE)
 
 
@@ -282,11 +283,11 @@ install.packages("RColorBrewer")
 library("RColorBrewer")
 
 display.brewer.all( type="qual")
-brewer.pal( 6,"Set2" )
+brewer.pal(8, "Set2")
 
 myGold <- "#FFD92FAA"
 
-world <- map(datebase='world',boundary=TRUE)
+world <- map(datebase='world',region='.',boundary=TRUE, fill=TRUE, col="light grey")
 symbols( wonMedal$longitude,wonMedal$latitude,circles=sqrt(wonMedal$Total)/1.3,add=TRUE, inches=FALSE,bg= myGold)
 
 
