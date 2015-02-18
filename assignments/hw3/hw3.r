@@ -205,7 +205,9 @@ SO2012Ctry <- cbind(SO2012Ctry,GDP_per_person)
 # symbols( your code here )
 
 # Your ggplot command
-ggplot(SO2012Ctry, aes(x=log(SO2012Ctry$GDP_per_person),y=log(SO2012Ctry$pop)))+geom_point(aes(size=SO2012Ctry$Total),shape=1)+scale_size_area()
+ggplot(SO2012Ctry, aes(x=SO2012Ctry$GDP_per_person,y=SO2012Ctry$pop))+
+  scale_x_log10()+scale_y_log10()+
+  geom_point(aes(size=SO2012Ctry$Total),shape=1)
 
 # We skip Q8 this time the plot above is already fine.
 # Q8. It appears that the countries with no medals are circles too....
@@ -217,8 +219,10 @@ ggplot(SO2012Ctry, aes(x=log(SO2012Ctry$GDP_per_person),y=log(SO2012Ctry$pop)))+
 
 # Your ggplot command:
 top5 <- order(SO2012Ctry$Total,decreasing=TRUE)[1:5]
-p=ggplot(SO2012Ctry, aes(x=log(SO2012Ctry$GDP_per_person),y=log(SO2012Ctry$pop)))+geom_point(aes(size=SO2012Ctry$Total),shape=1)+scale_size_area()
-p+annotate("text",x=log(SO2012Ctry$GDP_per_person)[top5],y=log(SO2012Ctry$pop)[top5],label=SO2012Ctry$ISO[top5],colour="blue",adj=1,cex=3.5)+
+p=ggplot(SO2012Ctry, aes(x=SO2012Ctry$GDP_per_person,y=SO2012Ctry$pop))+
+  scale_x_log10()+scale_y_log10()+
+  geom_point(aes(size=SO2012Ctry$Total),shape=1)
+p+annotate("text",x=SO2012Ctry$GDP_per_person[top5],y=SO2012Ctry$pop[top5],label=SO2012Ctry$ISO[top5],colour="blue",adj=1,cex=3.5)+
   labs(x="log of GDP per person", y="log of population", title="London 2012 Olympics GDP, metals and population")
 
 ######################################
@@ -280,8 +284,8 @@ load("London2012ALL_ATHLETES.rda")
 # find the option that allows you to put bars side-by-side (study the manual page)
 
 # make barplot with ggplot
-athTab <- table(athletes$Sport, athletes$Sex)
-ggplot(athletes, aes(Sex,fill=athletes$Sport))+geom_bar(position="dodge")
+athTab <- table(athletes$Sex, athletes$Sport)
+ggplot(athletes, aes(Sport,fill=athletes$Sex))+geom_bar(position="dodge")
 
 ## Skip this question...
 #Q15. Remake the barplot above...
@@ -295,8 +299,9 @@ ggplot(athletes, aes(Sex,fill=athletes$Sport))+geom_bar(position="dodge")
 # Lastly, add a title to the plot.
 
 # Your ggplot commands
-athTab2 <- table(athletes$Sex, athletes$Sport)
-ggplot(athletes, aes(Sport,fill=athletes$Sex,title="Sport comparision with genders"))+geom_bar(position="dodge")+
+
+ggplot(athletes, aes(Sport,fill=athletes$Sex,title="Sport comparision with genders"))+
+  geom_bar(position="dodge")+
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 # This was the final version of the 4th plot.
