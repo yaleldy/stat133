@@ -311,18 +311,18 @@ load("rainfallCO.rda")
 
 # Create a variable 
 # max.rain : a vector of length 5 with the maximum rainfall at each station
-max.rain=lapply(rain,max)
+max.rain=sapply(rain,max)
 # Create a variable 
 # mean.rain : a vector of length 5 with the average rainfall at each station
 
-mean.rain=lapply(rain,mean)
+mean.rain=sapply(rain,mean)
 # Create a variable 
 # sd.rain : a vector of length 5 with the standard deviation of the rainfall at each station
-sd.rain=lapply(rain,sd)
+sd.rain=sapply(rain,sd)
 
 # Create a variable 
 # n1989.rain : a vector of length 5 with the number of measurements at each station in the year 1989 (use [day])
-n1989.rain=lapply(rain,length)
+n1989.rain=sapply(day, function(x) sum(ifelse(floor(x)==1989,1,0)))
 
 
 
