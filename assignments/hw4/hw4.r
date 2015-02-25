@@ -15,7 +15,7 @@
 
 listLengths <- function(data.list) {
 
-    # your code here
+    return (sapply(data.list, length))
 
 }
 
@@ -31,7 +31,13 @@ listLengths <- function(data.list) {
 #              the column names should be : "x", "x^2", "x^3" etc.
 
 powers <- function(x, k){
-
+  i=2
+  matrix=x
+  while (i<=k){
+    matrix=cbind(matrix,x^i)
+    i=i+1
+  }
+  return (matrix)
 }
 
  
@@ -64,9 +70,28 @@ powers <- function(x, k){
 
 # Put your code here
 recipeConversion <- function(recipe){
-
+  if (any(colnames(recipe)!= c('amount', 'unit', 'ingredient'))){
+      stop('column name error') 
+  }else {
+      recipe[,'unit']=as.character(recipe[,'unit'])
+      i=1
+      while (i <= nrow(recipe)) {
+        if (recipe$unit[i] %in% c('cup', 'cups')){
+          recipe$unit[i]='ml'
+          recipe$amount[i]= round(recipe$amount[i]*236.6/5)*5
+          i=i+1
+        } else if (recipe$unit[i] %in% 'oz') {
+          recipe$unit[i]='gr'
+          recipe$amount[i]= round(recipe$amount[i]*28.3/5)*5
+          i=i+1
+        } else {
+          i=i+1
+        }
+  }
+  recipe.metric=recipe
+  return (recipe.metric)
 }
-
+}
 
 #### Function #4a
 # Implement the function "bootstrapVarEst"
@@ -90,6 +115,13 @@ recipeConversion <- function(recipe){
 # -- The bootstrap variance is the sample variance of mu_1, mu_2, ..., mu_B
 
 bootstrapVarEst <- function(x, B){
+  boot_mean=rep(0,B)
+  for (i in 1:B){
+    new_index=sample(x=x, size=length(x), replace=T)
+    boot_mean[i]=mean(x[new_index])
+  }
+  boot.sigma2.est=var(boot_mean)
+  return (boot.sigma2.est)
 
 }
 
@@ -111,7 +143,15 @@ bootstrapVarEst <- function(x, B){
 #     for this reduced sample calculate the sample mean (get mu_1, mu_2, ..., mu_n)
 # -- The jackknife variance is the sample variance of mu_1, mu_2, ..., mu_n
 
-jackknifeVarEst <- fuction(x){
+jackknifeVarEst <- function(x){
+  boot_mean=rep(0,length(x))
+  index=c(1:length(x))
+  for (i in 1:length(x)){
+    new_index=index[-i]
+    boot_mean[i]=mean(x[new_index])
+  }
+  jack.sigma2.est=var(boot_mean)
+  return (jack.sigma2.est)
 
 }
 
@@ -127,7 +167,12 @@ jackknifeVarEst <- fuction(x){
 
 # Note: this function calls the previous two functions.
 
-samplingVarEst <- function(  ){
+samplingVarEst <- function(x,B=1000, type='bootstrap'){
+  if (type=='bootstrap'){
+    return (bootstrapVarEst(x,B))
+  } else {
+    return (jackknifeVarEst(x))
+  }
 
 }
 
