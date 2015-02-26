@@ -37,6 +37,10 @@ powers <- function(x, k){
     matrix=cbind(matrix,x^i)
     i=i+1
   }
+  for (i in 1:k){
+    colnames(matrix)=paste('x^',sep='',1:k)
+  }
+  colnames(matrix)[1]="x"
   return (matrix)
 }
 
@@ -118,7 +122,7 @@ bootstrapVarEst <- function(x, B){
   boot_mean=rep(0,B)
   for (i in 1:B){
     new_index=sample(x=x, size=length(x), replace=T)
-    boot_mean[i]=mean(x[new_index])
+    boot_mean[i]=mean(new_index)
   }
   boot.sigma2.est=var(boot_mean)
   return (boot.sigma2.est)
@@ -144,13 +148,11 @@ bootstrapVarEst <- function(x, B){
 # -- The jackknife variance is the sample variance of mu_1, mu_2, ..., mu_n
 
 jackknifeVarEst <- function(x){
-  boot_mean=rep(0,length(x))
-  index=c(1:length(x))
+  jack_mean=rep(0,length(x))
   for (i in 1:length(x)){
-    new_index=index[-i]
-    boot_mean[i]=mean(x[new_index])
+    jack_mean[i]=mean(x[-i])
   }
-  jack.sigma2.est=var(boot_mean)
+  jack.sigma2.est=var(jack_mean)
   return (jack.sigma2.est)
 
 }
