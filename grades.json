@@ -1,0 +1,23 @@
+{
+    "email": "yaleldy@berkeley.edu", 
+    "github_name": "yaleldy", 
+    "grades": {
+        "hw1": {
+            "note": "", 
+            "hash": "5cd03278622fc160d167b7fd031b69a958a2e895", 
+            "earned": 16, 
+            "possible": 20, 
+            "penalty": 0, 
+            "parts": {
+                "hw1": {
+                    "possible": 20, 
+                    "earned": 16
+                }
+            }
+        }
+    }, 
+    "login": "yaleldy", 
+    "name": "Dongyu Lang", 
+    "status": "enrolled", 
+    "url": "git@github.com:yaleldy/stat133.git"
+}
