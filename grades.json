@@ -19,5 +19,6 @@
     "login": "yaleldy", 
     "name": "Dongyu Lang", 
     "status": "enrolled", 
-    "url": "git@github.com:yaleldy/stat133.git"
+    "url": "git@github.com:yaleldy/stat133.git", 
+    "section": "lab3"
 }
