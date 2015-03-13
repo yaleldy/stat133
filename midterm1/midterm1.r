@@ -2,12 +2,12 @@
 # required to perform the following tasks. The dataset includes data for houses
 # in the city of Berkeley.
 
-
+load("SFHousing-2.rda")
 # calculate the mean and median bsqft of houses in Berkeley. Store these as the
 # variables <mean.bsqft> and <med.bsqft> respectively.
 
-# mean.bsft <- your code here
-# med.bsqft <- your code here
+mean.bsqft <- mean(housing$bsqft,na.rm=T)
+med.bsqft <- median(housing$bsqft, na.rm=T)
 
 
 # For each house in the dataset, calculate the squared difference between its
@@ -15,7 +15,7 @@
 # <bsqft.diffs>. Note that this should be a numeric vector with length equal to
 # the number of observations in the dataset
 
-# bsqft.diffs <- your code here
+bsqft.diffs <- sapply(housing$bsqft, function(p) (p - med.bsqft))
 
 
 
@@ -24,15 +24,15 @@
 # 1) houses whose bsqft is strictly greater than <mean.bsqft>:  <bsft.greater>
 # 2) houses whose bsqft is less than or equal to  <mean.bsqft>: <bsqft.less>
 
-# bsqft.greater <- your code here
-# bsqft.less <- your code here
+bsqft.greater <- housing[housing$bsqft>mean.bsqft,]
+bsqft.less <- housing[housing$bsqft<=mean.bsqft,]
 
 
 # For each of your subsets, create a vector giving the price of each house. Name
 # these variables <rooms.greater.price> and <rooms.less.price>.
 
-# rooms.greater.price <- your code here
-# rooms.less.price <- your code here
+rooms.greater.price <- bsqft.greater$price
+rooms.less.price <- bsqft.less$price
 
 
 
@@ -49,8 +49,7 @@
 # <br> in the range (inclusive) specified by <room.range>
 
 priceByRooms <- function(room.range, br, prices) {
-
-    # your code here
+  return(mean(prices[room.range[1]<= br & room.range[2]>=br]))
 
 }
 
@@ -60,4 +59,5 @@ priceByRooms <- function(room.range, br, prices) {
 # 1) a title "Housing price vs Number of Rooms"
 # 2) axis labels: "price" and "number of rooms"
 # 3) plotting character set to 20
-
+plot(x=housing$br, y=housing$price, xlab="number of rooms", ylab="price", 
+     main="Housing price vs Number of Rooms", pch=20)
