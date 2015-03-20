@@ -38,16 +38,42 @@ sim.doctors <- function(initial.doctors, n.doctors, n.days, p){
   # 3) convert the non-adopter with probability p
 
   # return the output
-
+  has_adopted=matrix(initial.doctors)
+  for (i in 2:n.days){
+    a=sample(1:length(initial.doctors),2)
+    if (has_adopted[a[1],i-1]==has_adopted[a[2],i-1]){
+      has_adopted=cbind(has_adopted,has_adopted[,i-1])
+    } else {
+      if (has_adopted[a[1],i-1]==0){
+        has_adopted=cbind(has_adopted,has_adopted[,i-1])
+        has_adopted[a[1],i]= sample(c(0,1),1,prob=c(1-p,p))
+      } else {
+        has_adopted=cbind(has_adopted,has_adopted[,i-1])
+        has_adopted[a[2],i]= sample(c(0,1),1,prob=c(1-p,p))        
+      }
+    }
+  }
+  return (has_adopted)
 }
 
 # When you test your function you have to generate <initial.doctors> and
 # pick values for the other input parameters.
 
 set.seed(42)
+initial.doctors=sample(c(0,1),20,replace=T,prob=c(0.9,0.1))
+a1=sim.doctors(initial.doctors, 20, 50, 0.5)
+a2=sim.doctors(initial.doctors, 20, 50, 0.6)
+a3=sim.doctors(initial.doctors, 20, 50, 0.7)
+a4=sim.doctors(initial.doctors, 20, 50, 0.8)
+a5=sim.doctors(initial.doctors, 20, 50, 0.9)
 # Generate a value for <initial.doctors> that has 10% 1s and 90% 0s.
 # Run your function for at least 5 different values of <p> and plot
 # on x-axis: days,
 # on y-axis : the number of doctors that have already adopted the drug, on that day
 # Put all 5 lines in one figure (e.g. use first plot() then lines() for the subsequent lines)
-
+plot(x=1:50,y=apply(a1,2,sum),xlab="day",ylab="number of doctors adopted", type="o", col="green",pch=21)
+lines(x=1:50,y=apply(a2,2,sum),type="o",col="red",pch=22)
+lines(x=1:50,y=apply(a3,2,sum),type="o",col="blue",pch=23)
+lines(x=1:50,y=apply(a4,2,sum),type="o",col="yellow",pch=24)
+lines(x=1:50,y=apply(a5,2,sum),type="o",col="purple",pch=25)
+legend(35,10,c("p=0.5","p=0.6","p=0.7","p=0.8","p=0.9"),lty=c(1,1),cex=0.8,col=c('green','red','blue','yellow','purple'),pch=21:25)
