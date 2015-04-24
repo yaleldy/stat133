@@ -18,8 +18,9 @@ genBootY = function(x, y, rep = TRUE){
   ### Return a vector of random y values the same length as y
   ### You can assume that the xs are sorted
   ### Hint use tapply here!
-  
-
+  y_new=tapply(y,x,sample,replace=rep)
+  y_vec=unname(unlist(y_new))
+  return (y_vec)
 }
 
 genBootR = function(fit, err, rep = TRUE){
@@ -27,7 +28,9 @@ genBootR = function(fit, err, rep = TRUE){
   ### Add the errors to the fit to create a y vector
   ### Return a vector of y values the same length as fit
   ### HINT: It can be easier to sample the indices than the values
-  
+  indices=sample(1:length(err), length(err), replace=rep)
+  y=fit+err[indices]
+  return (y)
  
 }
 
@@ -37,7 +40,13 @@ fitModel = function(x, y, degree = 1){
   ### y and x are numeric vectors of the same length
   ### Return the coefficients as a vector 
   ### HINT: Take a look at the repBoot function to see how to use lm()
-  
+  if (degree==1){
+    fit= lm(y ~ x)
+    coeff=as.vector(c(fit$coef[1],fit$coef[2]))
+  } else {
+    fit= lm(y ~ x + I(x^2))
+    coeff=as.vector(c(fit$coef[1],fit$coef[2], fit$coef[3]))
+  }
  
   return(coeff)
 }
@@ -49,7 +58,14 @@ oneBoot = function(data, fit = NULL, degree = 1){
 
  
   ### Use fitModel to fit a model to this bootstrap Y 
- 
+ if (is.null(fit)){
+   newy=genBootY(data[,1],data[,2])
+   coef=fitModel(data[,1],newy,degree)
+ } else {
+   newy2=genBootR(fit[,1],fit[,2],F)
+   coef=fitModel(data[,1],newy2,degree)
+ }
+ return (coef)
 }
 
 repBoot = function(data, B = 1000){
@@ -75,6 +91,43 @@ repBoot = function(data, B = 1000){
   ### and two or three rows, depending on whether the 
   ### fit is for a line or a quadratic
   ### Return this list
+  coef1=c()
+  for (i in 1:B) {
+    coeff1= oneBoot(data, NULL, degree = 1)
+    coef1=c(coef1,coeff1)
+  }
+  coef11=matrix(coef1, 2, B)
+  coef2=c()
+  for (i in 1:B) {
+    coeff2= oneBoot(data, NULL, degree = 2)
+    coef2=c(coef2,coeff2)    
+  }
+  coef12=matrix(coef2, 3, B)
+  
+  ce1=fitModel(data[,1],data[,2],1)
+  y_fit=ce1[2]*data[,1]+ce1[1]
+  err1=data[,2]-y_fit
+  fit1=as.matrix(cbind(y_fit,err1))
+  coef3=c()
+  for (i in 1:B) {
+    coeff3=oneBoot(data,fit1,1)
+    coef3=c(coef3,coeff3)
+  }
+  coef13=matrix(coef3,2,B)
+  
+  ce2=fitModel(data[,1],data[,2],2)
+  y_fit2=ce2[3]*data[,1]*data[,1]+ce2[2]*data[,1]+ce2[1]
+  err2=data[,2]-y_fit2
+  fit2=as.matrix(cbind(y_fit2,err2))
+  coef4=c()
+  for (i in 1:B){
+    coeff4=oneBoot(data,fit2,2)
+    coef4=c(coef4,coeff4)
+  }
+  coef14=matrix(coef4,3,B)
+  
+  coeff=list(coef11,coef12, coef13, coef14)
+  
   
   return(coeff)
 } 
@@ -86,7 +139,7 @@ bootPlot = function(x, y, coeff, trueCoeff){
   ### that generated the data
   
   ### Make a scatter plot of data
-
+  plot(x,y)
   ### Add lines or curves for each row in coeff
   ### Use transparency
   ### You should use mapply to construct all 
@@ -96,7 +149,12 @@ bootPlot = function(x, y, coeff, trueCoeff){
   
   ### Use trueCoeff to add true line/curve - 
   ###  Make the true line/curve stand out
-
+  if (nrow(coeff)==2){
+    sapply(1:ncol(coeff), function(x) abline(coef=coeff[,x],col=rgb(0,0,0,alpha=0.02)))
+  } else {
+    sapply(1:ncol(coeff), function(y) curve(coeff[3,y]*x^2+coeff[2,y]*x+coeff[1,y],col=rgb(0,0,0,alpha=0.02), add=TRUE))
+  }
+  curve(trueCoeff[1] + trueCoeff[2]*x + trueCoeff[3] * x^2, add=TRUE, col='red')
 }
 
 ### Run your simulation by calling this function
