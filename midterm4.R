@@ -20,7 +20,12 @@ set.seed(123456)
 # We've set the default inputs to k=2 and B=100
 
 dice_sum <- function(k=2, B=100){
-
+  dsum= c()
+  for(i in 1: B){
+    v1=sum(sample(1:6, k, replace=T))
+    dsum= c(dsum, v1) 
+  }
+  return (dsum)
 }
 
 #### String manipulation
@@ -30,20 +35,22 @@ phrases <- c("dog", "doggy", "den", "good boy", "Really?", "How much?", "Only $8
 # Create a vector [text1] that lists the elements in phrases 
 # where the SECOND TO LAST character is "o" (lower case o).
 #text1 <- <your code here>
-
+text1= grep('o', phrases)
+text1=phrases[text1]
 # Create a vector [text2] that lists the elements in phrases that
 # START with the letter "d"
 #text2 <- <your code here>
-
+text21= grep('^d', phrases)
+text2= phrases[text21]
 # Create a variable [no.punct] that equals the number of phrases with a punctuation mark in it.
 # no.punct <- <your code here>
-
+no.punct= gsub('[[:punct:]]', '', phrases)
 # Create a vector [even] that is of length 1000 and has the entries
 # "even2", "even4", ...
 # with no separation between the word and the letter
 
 #even <- <your code here>
-
+even=paste('even', (1:1000)*2, sep="")
 
 # Start with [hotelCal] which is a character string, create 
 # a _vector_ (not list) [hotelCal.split] which 
@@ -54,7 +61,10 @@ phrases <- c("dog", "doggy", "den", "good boy", "Really?", "How much?", "Only $8
 hotelCal <- "On a dark desert highway, cool wind in my hair. Warm smell of colitas, rising up through the air. Up ahead in the distance, I saw a shimmering light. My head grew heavy and my sight grew dim I had to stop for the night.  There she stood in the doorway; I heard the mission bell.  And I was thinking to myself: 'This could be heaven or this could be hell'. Then she lit up a candle and she showed me the way."
 
 # hotelCal.split <- <your code here> 
-
+hotel1=as.vector(strsplit(hotelCal, split=" ")[[1]])
+hotel1=hotel1[hotel1 != ""]
+hotel2=tolower(hotel1)
+hotelCal.split=gsub('[[:punct:]]', "", hotel2)
 
 # Write a function called updateDate. Your function should take the following
 # arguments
@@ -68,7 +78,10 @@ hotelCal <- "On a dark desert highway, cool wind in my hair. Warm smell of colit
 #     updated. For example updateDate(c('May, 2008', 'June, 2011'), '2008') should
 #     return 'May, 2015'.
 updateDate <- function(dates, old.yr) {
-
+  ind=grep(old.yr, dates)
+  dates= gsub(old.yr, '2015', dates)
+  updated.dates= dates[ind]
+  return (updated.dates)
 }
 
 
@@ -76,5 +89,9 @@ updateDate <- function(dates, old.yr) {
 # a vector of the same length with only the first [k] characters from the orignal vector entries.
 
 abbreviate <- function(vector, k){
-
+  new1=vector()
+  for (i in 1:length(vector)){
+    new1[i]=substr(vector[i], 1, k)
+  }
+  return (new1)
 }
