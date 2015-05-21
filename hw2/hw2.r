@@ -51,6 +51,7 @@
 # the hw3 directory in the file WR1500MeterMen.rda.
 
 # load the data
+load("WR1500MeterMen.rda")
 
 # The name of the object loaded is wr1500m
 # The time (in the column "times") in these data are recorded in seconds, 
@@ -249,7 +250,7 @@ text(log(SO2012Ctry$GDP_per_person)[top5], log(SO2012Ctry$pop)[top5],
 #install.packages("maps")
 library("maps")
 
-world <- map(datebase='world',region='.',boundary=TRUE, fill=TRUE, col="light grey")
+world <- map(database='world',region='.',boundary=TRUE, fill=TRUE, col="light grey")
 
 #Q11. Use the symbols() function to add circles to the map where
 # the circles are proportional in area to the number of medals
@@ -263,7 +264,7 @@ world <- map(datebase='world',region='.',boundary=TRUE, fill=TRUE, col="light gr
 # the contries longitude, latitude and Total.)
 
 wonMedal <- subset(SO2012Ctry, SO2012Ctry$Total > 0, select=c("Total", "longitude", "latitude"))
-world <- map(datebase='world',region='.',boundary=TRUE, fill=TRUE, col="light grey")
+world <- map(database='world',region='.',boundary=TRUE, fill=TRUE, col="light grey")
 symbols(wonMedal$longitude,wonMedal$latitude,circles=sqrt(wonMedal$Total)/1.3,add=TRUE, inches=FALSE)
 
 
