@@ -27,6 +27,53 @@
                     "earned": 17
                 }
             }
+        }, 
+        "hw2": {
+            "note": "", 
+            "hash": "8185e003dae1a23b6caf09826e9e8f8efe68ebd1", 
+            "earned": 29, 
+            "possible": 31, 
+            "penalty": 0, 
+            "parts": {
+                "hw2_fig": {
+                    "possible": 20, 
+                    "earned": 20
+                }, 
+                "hw2": {
+                    "possible": 11, 
+                    "earned": 9
+                }
+            }
+        }, 
+        "midterm4": {
+            "note": "", 
+            "hash": "84893e2fd83b57c306192f7f0d947616d101edcd", 
+            "earned": 27, 
+            "possible": 27, 
+            "penalty": 0, 
+            "parts": {
+                "midterm4": {
+                    "possible": 30, 
+                    "earned": 27
+                }
+            }
+        }, 
+        "final-feiw50hj": {
+            "note": "", 
+            "hash": "1c1588684d825134850ab73a248ce3cc9313575f", 
+            "earned": 87, 
+            "possible": 100, 
+            "penalty": 0, 
+            "parts": {
+                "final": {
+                    "possible": 69, 
+                    "earned": 56
+                }, 
+                "final_fig": {
+                    "possible": 31, 
+                    "earned": 31
+                }
+            }
         }
     }, 
     "login": "yaleldy", 
